@@ -15,6 +15,8 @@ require (
 	github.com/cloudflare/tableflip v0.0.0-20190329062924-8392f1641731
 	github.com/cloudfoundry-incubator/candiedyaml v0.0.0-20170901234223-a41693b7b7af // indirect
 	github.com/dchest/uniuri v0.0.0-20160212164326-8902c56451e9
+	github.com/dgraph-io/dgo v0.0.0-20190417183419-087e431c0fda
+	github.com/dolan-in/dgman v0.6.0
 	github.com/envoyproxy/protoc-gen-validate v0.0.14
 	github.com/frapposelli/wwhrd v0.2.1
 	github.com/go-chi/chi v4.0.2+incompatible

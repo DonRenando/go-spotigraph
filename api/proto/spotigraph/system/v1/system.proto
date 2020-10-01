@@ -17,7 +17,7 @@ syntax = "proto3";
 package spotigraph.system.v1;
 
 option csharp_namespace = "Spotigraph.System.V1";
-option go_package = "systemv1";
+option go_package = "spotigraph/system/v1;systemv1";
 option java_multiple_files = true;
 option java_outer_classname = "SystemProto";
 option java_package = "org.zenithar.spotigraph.system.v1";

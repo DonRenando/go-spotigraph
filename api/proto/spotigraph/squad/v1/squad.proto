@@ -17,7 +17,7 @@ syntax = "proto3";
 package spotigraph.squad.v1;
 
 option csharp_namespace = "Spotigraph.Squad.V1";
-option go_package = "squadv1";
+option go_package = "spotigraph/squad/v1;squadv1";
 option java_multiple_files = true;
 option java_outer_classname = "SquadProto";
 option java_package = "org.zenithar.spotigraph.squad.v1";

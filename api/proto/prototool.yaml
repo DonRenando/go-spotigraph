@@ -15,7 +15,12 @@ lint:
   file_header:
     path: ../../LICENSE
   java_package_prefix: org.zenithar
-
+  rules:
+    remove:
+      # Protogen now expects the full package path to be specified, which conflicts with the Uber2 style/linting
+      # https://developers.google.com/protocol-buffers/docs/reference/go-generated#package
+      - FILE_OPTIONS_EQUAL_GO_PACKAGE_V2_SUFFIX
+      - FILE_OPTIONS_GO_PACKAGE_NOT_LONG_FORM
 generate:
   go_options:
     import_path: go.zenithar.org/spotigraph/api/proto

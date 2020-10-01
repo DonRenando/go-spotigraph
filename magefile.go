@@ -17,6 +17,12 @@
 package main
 
 import (
+	"fmt"
+	"os"
+	"path"
+	"path/filepath"
+	"time"
+
 	"go.zenithar.org/spotigraph/build/mage/docker"
 	"go.zenithar.org/spotigraph/build/mage/golang"
 
@@ -24,6 +30,24 @@ import (
 	"github.com/magefile/mage/mg"
 	"github.com/magefile/mage/sh"
 )
+
+var curDir = func() string {
+	name, _ := os.Getwd()
+	return name
+}()
+
+// Calculate file paths
+var toolsBinDir = normalizePath(path.Join(curDir, "tools", "bin"))
+
+func init() {
+	time.Local = time.UTC
+
+	// Add local bin in PATH
+	err := os.Setenv("PATH", fmt.Sprintf("%s:%s", toolsBinDir, os.Getenv("PATH")))
+	if err != nil {
+		panic(err)
+	}
+}
 
 type Code mg.Namespace
 
@@ -52,7 +76,7 @@ type API mg.Namespace
 
 func (API) Generate() error {
 	color.Blue("### Regenerate API")
-	return sh.RunV("prototool", "all", "--fix", "api/proto")
+	return sh.RunV("prototool", "all", "api/proto")
 }
 
 // -----------------------------------------------------------------------------
@@ -81,4 +105,17 @@ func (Debug) Dockerfile() error {
 		Description: "Spotify agile model data microservice",
 		URL:         "https://github.com/Zenitha/go-spotigraph/tree/master/cmd/spotigraph",
 	})()
+}
+
+// normalizePath turns a path into an absolute path and removes symlinks
+func normalizePath(name string) string {
+	absPath := mustStr(filepath.Abs(name))
+	return absPath
+}
+
+func mustStr(r string, err error) string {
+	if err != nil {
+		panic(err)
+	}
+	return r
 }

@@ -5,26 +5,27 @@
 package guildv1
 
 import (
-	tls "crypto/tls"
-	x509 "crypto/x509"
-	fmt "fmt"
-
-	ioutil "io/ioutil"
-	log "log"
-	net "net"
-	os "os"
-	filepath "path/filepath"
-	time "time"
-
 	proto "github.com/golang/protobuf/proto"
 	cobra "github.com/spf13/cobra"
-	pflag "github.com/spf13/pflag"
-	iocodec "github.com/tetratelabs/protoc-gen-cobra/iocodec"
 	context "golang.org/x/net/context"
-	oauth2 "golang.org/x/oauth2"
-	grpc "google.golang.org/grpc"
 	credentials "google.golang.org/grpc/credentials"
+	filepath "path/filepath"
+	fmt1 "fmt"
+	grpc "google.golang.org/grpc"
+	io "io"
+	iocodec "github.com/tetratelabs/protoc-gen-cobra/iocodec"
+	ioutil "io/ioutil"
+	json "encoding/json"
+	log "log"
+	net "net"
 	oauth "google.golang.org/grpc/credentials/oauth"
+	oauth2 "golang.org/x/oauth2"
+	os "os"
+	pflag "github.com/spf13/pflag"
+	template "text/template"
+	time "time"
+	tls "crypto/tls"
+	x509 "crypto/x509"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -129,7 +130,7 @@ func _DialGuildAPI() (*grpc.ClientConn, GuildAPIClient, error) {
 			addr, _, _ := net.SplitHostPort(cfg.ServerAddr)
 			tlsConfig.ServerName = addr
 		}
-		// tlsConfig.BuildNameToCertificate()
+		//tlsConfig.BuildNameToCertificate()
 		cred := credentials.NewTLS(tlsConfig)
 		opts = append(opts, grpc.WithTransportCredentials(cred))
 	} else {
@@ -220,6 +221,7 @@ func _GuildAPICreateClientCommand() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			var v CreateRequest
 			err := _GuildAPIRoundTrip(v, func(cli GuildAPIClient, in iocodec.Decoder, out iocodec.Encoder) error {
+
 				err := in.Decode(&v)
 				if err != nil {
 					return err
@@ -227,11 +229,13 @@ func _GuildAPICreateClientCommand() *cobra.Command {
 
 				proto.Merge(&v, reqArgs)
 				resp, err := cli.Create(context.Background(), &v)
+
 				if err != nil {
 					return err
 				}
 
 				return out.Encode(resp)
+
 			})
 			if err != nil {
 				log.Fatal(err)
@@ -254,6 +258,7 @@ func _GuildAPIGetClientCommand() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			var v GetRequest
 			err := _GuildAPIRoundTrip(v, func(cli GuildAPIClient, in iocodec.Decoder, out iocodec.Encoder) error {
+
 				err := in.Decode(&v)
 				if err != nil {
 					return err
@@ -261,11 +266,13 @@ func _GuildAPIGetClientCommand() *cobra.Command {
 
 				proto.Merge(&v, reqArgs)
 				resp, err := cli.Get(context.Background(), &v)
+
 				if err != nil {
 					return err
 				}
 
 				return out.Encode(resp)
+
 			})
 			if err != nil {
 				log.Fatal(err)
@@ -288,6 +295,7 @@ func _GuildAPIUpdateClientCommand() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			var v UpdateRequest
 			err := _GuildAPIRoundTrip(v, func(cli GuildAPIClient, in iocodec.Decoder, out iocodec.Encoder) error {
+
 				err := in.Decode(&v)
 				if err != nil {
 					return err
@@ -295,11 +303,13 @@ func _GuildAPIUpdateClientCommand() *cobra.Command {
 
 				proto.Merge(&v, reqArgs)
 				resp, err := cli.Update(context.Background(), &v)
+
 				if err != nil {
 					return err
 				}
 
 				return out.Encode(resp)
+
 			})
 			if err != nil {
 				log.Fatal(err)
@@ -322,6 +332,7 @@ func _GuildAPIDeleteClientCommand() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			var v DeleteRequest
 			err := _GuildAPIRoundTrip(v, func(cli GuildAPIClient, in iocodec.Decoder, out iocodec.Encoder) error {
+
 				err := in.Decode(&v)
 				if err != nil {
 					return err
@@ -329,11 +340,13 @@ func _GuildAPIDeleteClientCommand() *cobra.Command {
 
 				proto.Merge(&v, reqArgs)
 				resp, err := cli.Delete(context.Background(), &v)
+
 				if err != nil {
 					return err
 				}
 
 				return out.Encode(resp)
+
 			})
 			if err != nil {
 				log.Fatal(err)
@@ -356,6 +369,7 @@ func _GuildAPISearchClientCommand() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			var v SearchRequest
 			err := _GuildAPIRoundTrip(v, func(cli GuildAPIClient, in iocodec.Decoder, out iocodec.Encoder) error {
+
 				err := in.Decode(&v)
 				if err != nil {
 					return err
@@ -363,11 +377,13 @@ func _GuildAPISearchClientCommand() *cobra.Command {
 
 				proto.Merge(&v, reqArgs)
 				resp, err := cli.Search(context.Background(), &v)
+
 				if err != nil {
 					return err
 				}
 
 				return out.Encode(resp)
+
 			})
 			if err != nil {
 				log.Fatal(err)
@@ -392,6 +408,7 @@ func _GuildAPIJoinClientCommand() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			var v JoinRequest
 			err := _GuildAPIRoundTrip(v, func(cli GuildAPIClient, in iocodec.Decoder, out iocodec.Encoder) error {
+
 				err := in.Decode(&v)
 				if err != nil {
 					return err
@@ -399,11 +416,13 @@ func _GuildAPIJoinClientCommand() *cobra.Command {
 
 				proto.Merge(&v, reqArgs)
 				resp, err := cli.Join(context.Background(), &v)
+
 				if err != nil {
 					return err
 				}
 
 				return out.Encode(resp)
+
 			})
 			if err != nil {
 				log.Fatal(err)
@@ -427,6 +446,7 @@ func _GuildAPILeaveClientCommand() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			var v LeaveRequest
 			err := _GuildAPIRoundTrip(v, func(cli GuildAPIClient, in iocodec.Decoder, out iocodec.Encoder) error {
+
 				err := in.Decode(&v)
 				if err != nil {
 					return err
@@ -434,11 +454,13 @@ func _GuildAPILeaveClientCommand() *cobra.Command {
 
 				proto.Merge(&v, reqArgs)
 				resp, err := cli.Leave(context.Background(), &v)
+
 				if err != nil {
 					return err
 				}
 
 				return out.Encode(resp)
+
 			})
 			if err != nil {
 				log.Fatal(err)
